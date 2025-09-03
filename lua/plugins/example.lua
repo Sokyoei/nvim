@@ -1,6 +1,6 @@
 -- since this is just an example spec, don't actually load anything here and return an empty spec
 -- stylua: ignore
-if true then return {} end
+-- if true then return {} end
 
 -- every spec file under the "plugins" directory will be loaded automatically by lazy.nvim
 --
@@ -9,17 +9,39 @@ if true then return {} end
 -- * disable/enabled LazyVim plugins
 -- * override the configuration of LazyVim plugins
 return {
+    --------------------------------------------------------------------------------------------------------------------
+    -- 主题插件
     -- add gruvbox
-    { "ellisonleao/gruvbox.nvim" },
+    -- { "ellisonleao/gruvbox.nvim" },
+    -- {
+    --     "catppuccin/nvim",
+    --     name = "catppuccin",
+    --     priority = 1000
+    -- },
+    {
+        "folke/tokyonight.nvim",
+        opts = {
+            transparent = true,           -- 透明背景
+            styles = {
+                sidebars = "transparent", -- 侧边栏透明
+                floats = "transparent",   -- 浮动窗口透明
+            },
+        },
+    },
 
+    --------------------------------------------------------------------------------------------------------------------
+    -- LazyVim 核心插件
     -- Configure LazyVim to load gruvbox
     {
         "LazyVim/LazyVim",
         opts = {
-            colorscheme = "gruvbox",
+            colorscheme = "tokyonight",
+            transparent = true, -- 强制使用终端背景颜色
         },
     },
 
+    --------------------------------------------------------------------------------------------------------------------
+    -- trouble 错误诊断插件
     -- change trouble config
     {
         "folke/trouble.nvim",
@@ -28,8 +50,13 @@ return {
     },
 
     -- disable trouble
-    { "folke/trouble.nvim",      enabled = false },
+    {
+        "folke/trouble.nvim",
+        enabled = false
+    },
 
+    --------------------------------------------------------------------------------------------------------------------
+    -- nvim-cmp 自动补全插件
     -- override nvim-cmp and add cmp-emoji
     {
         "hrsh7th/nvim-cmp",
@@ -40,6 +67,8 @@ return {
         end,
     },
 
+    --------------------------------------------------------------------------------------------------------------------
+    -- 文件搜索插件
     -- change some telescope options and a keymap to browse plugin files
     {
         "nvim-telescope/telescope.nvim",
@@ -55,14 +84,16 @@ return {
         -- change some options
         opts = {
             defaults = {
-                layout_strategy = "horizontal",
-                layout_config = { prompt_position = "top" },
-                sorting_strategy = "ascending",
-                winblend = 0,
+                layout_strategy = "horizontal",              -- 水平布局
+                layout_config = { prompt_position = "top" }, -- 搜索框置为顶部
+                sorting_strategy = "ascending",              -- 升序排序
+                winblend = 100,                              -- 窗口透明度（0~100, 0 为完全不透明）
             },
         },
     },
 
+    --------------------------------------------------------------------------------------------------------------------
+    -- LSP 核心插件配置
     -- add pyright to lspconfig
     {
         "neovim/nvim-lspconfig",
@@ -71,7 +102,17 @@ return {
             ---@type lspconfig.options
             servers = {
                 -- pyright will be automatically installed with mason and loaded with lspconfig
+                -- Python LSP server
                 pyright = {},
+                -- C/C++/CUDA LSP server
+                clangd = {
+                    cmd = {
+                        "clangd",
+                        "--background-index",      -- 建立后台索引，提高代码导航性能
+                        "--clang-tidy",            -- 代码风格检查
+                        "--header-insertion=iwyu", -- 自动插入头文件（遵循 IWYU 原则）
+                    },
+                },
             },
         },
     },
@@ -114,8 +155,10 @@ return {
 
     -- for typescript, LazyVim also includes extra specs to properly setup lspconfig,
     -- treesitter, mason and typescript.nvim. So instead of the above, you can use:
-    { import = "lazyvim.plugins.extras.lang.typescript" },
+    -- { import = "lazyvim.plugins.extras.lang.typescript" },
 
+    --------------------------------------------------------------------------------------------------------------------
+    -- Treesitter 语法高亮插件
     -- add more treesitter parsers
     {
         "nvim-treesitter/nvim-treesitter",
@@ -153,6 +196,8 @@ return {
         end,
     },
 
+    --------------------------------------------------------------------------------------------------------------------
+    -- lualine 状态栏插件
     -- the opts function can also be used to change the default opts:
     {
         "nvim-lualine/lualine.nvim",
@@ -178,20 +223,54 @@ return {
     },
 
     -- use mini.starter instead of alpha
-    { import = "lazyvim.plugins.extras.ui.mini-starter" },
+    -- { import = "lazyvim.plugins.extras.ui.mini-starter" },
 
     -- add jsonls and schemastore packages, and setup treesitter for json, json5 and jsonc
-    { import = "lazyvim.plugins.extras.lang.json" },
+    -- { import = "lazyvim.plugins.extras.lang.json" },
 
+    --------------------------------------------------------------------------------------------------------------------
+    -- Mason 包管理器配置
     -- add any tools you want to have installed below
     {
         "williamboman/mason.nvim",
         opts = {
             ensure_installed = {
-                "stylua",
+                "stylua", -- Lua formatter
                 "shellcheck",
                 "shfmt",
                 "flake8",
+            },
+        },
+    },
+
+    --------------------------------------------------------------------------------------------------------------------
+    -- conform 代码格式化配置
+    {
+        "stevearc/conform.nvim",
+        opts = {
+            formatters = {
+                clang_format = {
+                    command = "clang-format",
+                },
+                black = {
+                    command = "black",
+                    args = { "--fast" },
+                },
+                ruff = {
+                    command = "ruff",
+                    args = { "--fix", "-e", "-n" },
+                },
+            },
+            formatters_by_ft = {
+                c = { "clang_format" },
+                cpp = { "clang_format" },
+                lua = { "stylua" },
+                python = { "black", "ruff" },
+                sh = { "shfmt" },
+            },
+            format_on_save = {
+                timeout_ms = 500,
+                lsp_fallback = true,
             },
         },
     },

@@ -17,7 +17,30 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
     spec = {
         -- add LazyVim and import its plugins
-        { "LazyVim/LazyVim", import = "lazyvim.plugins" },
+        {
+            "LazyVim/LazyVim",
+            import = "lazyvim.plugins"
+        },
+
+        -------------------------------------------------------------------------------------------------------------------
+        -- extras plugins
+        -- for typescript, LazyVim also includes extra specs to properly setup lspconfig,
+        -- treesitter, mason and typescript.nvim. So instead of the above, you can use:
+        { import = "lazyvim.plugins.extras.lang.typescript" },
+        -- use mini.starter instead of alpha
+        -- { import = "lazyvim.plugins.extras.ui.mini-starter" },
+
+        -- BUG:
+        -- Failed to run `config` for mini.starter
+        -- vim/shared.lua:558: dst: expected table, got nil
+        -- # stacktrace:
+        -- - vim\shared.lua:1045 _in_ **validate**
+        -- - vim\shared.lua:558 _in_ **list_extend**
+        -- - LazyVim\lua\lazyvim\plugins\extras\editor\snacks_picker.lua:191 _in_ **values**
+
+        -- add jsonls and schemastore packages, and setup treesitter for json, json5 and jsonc
+        { import = "lazyvim.plugins.extras.lang.json" },
+
         -- import/override with your plugins
         { import = "plugins" },
     },
