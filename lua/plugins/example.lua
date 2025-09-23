@@ -10,26 +10,6 @@
 -- * override the configuration of LazyVim plugins
 return {
     --------------------------------------------------------------------------------------------------------------------
-    -- 主题插件
-    -- add gruvbox
-    -- { "ellisonleao/gruvbox.nvim" },
-    -- {
-    --     "catppuccin/nvim",
-    --     name = "catppuccin",
-    --     priority = 1000
-    -- },
-    {
-        "folke/tokyonight.nvim",
-        opts = {
-            transparent = true,           -- 透明背景
-            styles = {
-                sidebars = "transparent", -- 侧边栏透明
-                floats = "transparent",   -- 浮动窗口透明
-            },
-        },
-    },
-
-    --------------------------------------------------------------------------------------------------------------------
     -- LazyVim 核心插件
     -- Configure LazyVim to load gruvbox
     {
@@ -232,7 +212,8 @@ return {
     -- Mason 包管理器配置
     -- add any tools you want to have installed below
     {
-        "williamboman/mason.nvim",
+        -- "williamboman/mason.nvim", -- old name
+        "mason-org/mason.nvim",
         opts = {
             ensure_installed = {
                 "stylua", -- Lua formatter
@@ -274,4 +255,9 @@ return {
             },
         },
     },
+
+    -- {
+    --     'folke/noice.nvim',
+    --     enabled = false,
+    -- }
 }
