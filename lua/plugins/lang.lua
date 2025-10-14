@@ -16,4 +16,19 @@ return {
             options = {}                     -- if you add plugin options, they go here.
         },
     },
+
+    -- CMake
+    {
+        'Civitasv/cmake-tools.nvim',
+        dependencies = { "nvim-lua/plenary.nvim" }, -- 依赖的工具库
+        config = function()
+            require("cmake-tools").setup({
+                cmake_command = "cmake",
+                cmake_build_directory = "build",
+                cmake_generate_options = { "-DCMAKE_EXPORT_COMPILE_COMMANDS=1" },
+                cmake_build_options = { "-j8" },
+                cmake_soft_link_compile_commands = true,
+            })
+        end
+    },
 }
