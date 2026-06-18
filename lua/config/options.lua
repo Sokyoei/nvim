@@ -2,7 +2,6 @@
 -- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 -- Add any additional options here
 
-
 vim.opt.number = true         -- 启用行号
 vim.opt.relativenumber = true -- 启用相对行号
 
@@ -22,3 +21,24 @@ vim.opt.cursorline = true -- 高亮当前行
 vim.opt.autoread = true   -- 自动读取外部修改的文件
 vim.opt.mouse = "a"       -- 启用鼠标支持
 vim.opt.wrap = false      -- 不自动换行
+
+-- 显示 120 和 200 列的竖线
+vim.opt.colorcolumn = "120,200"
+
+-- 显示空白字符
+vim.opt.list = true
+-- 自定义空白字符的显示符号
+-- local defaults = vim.opt.listchars:get()
+-- defaults.tab = "→ "
+-- defaults.space = "·"
+-- defaults.trail = "-"
+-- defaults.extends = ">"
+-- defaults.precedes = "<"
+-- vim.opt.listchars = defaults
+vim.opt.listchars = {
+    tab = "→ ",
+    space = "·",
+    trail = "-",
+    extends = ">",
+    precedes = "<"
+}

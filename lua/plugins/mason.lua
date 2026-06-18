@@ -1,3 +1,6 @@
+-- Mason 包管理器
+-- https://github.com/mason-org/mason.nvim
+
 return {
     {
         -- "williamboman/mason.nvim", -- old name

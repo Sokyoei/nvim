@@ -1,3 +1,6 @@
+-- snacks QoL 插件集合
+-- https://github.com/folke/snacks.nvim
+
 return {
     {
         "folke/snacks.nvim",
@@ -10,6 +13,7 @@ return {
             indent = { enabled = true },
             input = { enabled = true },
             picker = { enabled = true },
+            -- image = { enabled = true },
             notifier = { enabled = true },
             quickfile = { enabled = true },
             scope = { enabled = true },

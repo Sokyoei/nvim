@@ -1,3 +1,6 @@
+-- conform 格式化
+-- https://github.com/stevearc/conform.nvim
+
 return {
     {
         "stevearc/conform.nvim",
